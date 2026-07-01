@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6c5ce7">
+  <title>WordQuest — Guess. Learn. Conquer.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="aurora aurora-one"></div><div class="aurora aurora-two"></div>
+  <nav>
+    <a class="brand" href="#"><span class="brand-icon">W</span><span>Word<span>Quest</span></span></a>
+    <div class="nav-actions">
+      <button class="icon-btn" id="soundBtn" aria-label="Toggle sound">🔊</button>
+      <button class="profile-pill" id="profileBtn"><span id="avatar">E</span><strong id="navName">Explorer</strong></button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span></span> DAILY BRAIN BOOST</div>
+      <h1>Guess the word.<br><em>Grow your mind.</em></h1>
+      <p>Uncover hidden words, sharpen your vocabulary, and turn every guess into a little victory.</p>
+    </section>
+
+    <section class="game-shell" id="gameShell">
+      <div class="setup" id="setup">
+        <div class="setup-copy">
+          <div class="mini-icon">✦</div>
+          <h2>Ready for a word adventure?</h2>
+          <p>Choose your challenge, trust your instincts, and let the letters reveal themselves.</p>
+        </div>
+        <div class="setup-form">
+          <label for="playerName">PLAYER NAME</label>
+          <input id="playerName" maxlength="24" value="{{ player }}" placeholder="What should we call you?" autocomplete="off">
+          <label>CHOOSE YOUR CHALLENGE</label>
+          <div class="difficulty-grid">
+            <button class="difficulty" data-level="easy"><span>🌱</span><b>Easy</b><small>5 letters · 8 tries</small></button>
+            <button class="difficulty active" data-level="medium"><span>⚡</span><b>Medium</b><small>6–7 letters · 7 tries</small></button>
+            <button class="difficulty" data-level="hard"><span>🔥</span><b>Hard</b><small>8+ letters · 6 tries</small></button>
+          </div>
+          <button class="primary-btn" id="startBtn">Begin the quest <span>→</span></button>
+        </div>
+      </div>
+
+      <div class="game hidden" id="game">
+        <div class="game-top">
+          <div><span class="level-badge" id="levelBadge">MEDIUM</span><span class="category" id="category">NATURE</span></div>
+          <div class="score-chip">✦ <strong id="score">90</strong> points</div>
+        </div>
+        <div class="progress-label"><span>Attempts remaining</span><strong id="attemptText">7 / 7</strong></div>
+        <div class="attempt-bar"><div id="attemptBar"></div></div>
+        <div class="hint-card"><span>💡</span><div><small>YOUR CLUE</small><p id="hint"></p></div></div>
+        <div class="word-slots" id="wordSlots" aria-label="Hidden word"></div>
+        <p class="message" id="message">Pick a letter to begin</p>
+        <div class="keyboard" id="keyboard"></div>
+        <div class="game-actions">
+          <button class="secondary-btn" id="revealBtn">✨ Reveal a letter <small>−15 pts</small></button>
+          <button class="ghost-btn" id="newBtn">↻ New word</button>
+        </div>
+      </div>
+
+      <div class="result hidden" id="result">
+        <div class="result-burst" id="resultIcon">🏆</div>
+        <div class="result-label" id="resultLabel">QUEST COMPLETE</div>
+        <h2 id="resultTitle">Brilliant work!</h2>
+        <p id="resultMessage"></p>
+        <div class="result-score"><small>ROUND SCORE</small><strong id="resultScore">0</strong><span>points</span></div>
+        <div class="result-actions">
+          <button class="primary-btn" id="playAgainBtn">Play another word <span>→</span></button>
+          <button class="secondary-btn" id="statsBtn">View my progress</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats hidden" id="stats">
+      <div class="section-heading"><div><span>YOUR JOURNEY</span><h2>Progress at a glance</h2></div><button class="ghost-btn" id="closeStats">Close ×</button></div>
+      <div class="stat-grid">
+        <article><span>🎮</span><div><strong id="gamesStat">0</strong><small>Words played</small></div></article>
+        <article><span>🏅</span><div><strong id="winsStat">0</strong><small>Words solved</small></div></article>
+        <article><span>⚡</span><div><strong id="bestStat">0</strong><small>Best score</small></div></article>
+        <article><span>🎯</span><div><strong id="rateStat">0%</strong><small>Success rate</small></div></article>
+      </div>
+      <div class="recent-card"><h3>Recent quests</h3><div id="recentList"></div></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

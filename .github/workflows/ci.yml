@@ -1,0 +1,70 @@
+name: WordQuest Flask CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wordquest-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test Flask application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && pip install -r requirements.txt
+
+      - name: Check Python syntax
+        run: python -m py_compile app.py
+
+      - name: Run application smoke tests
+        env:
+          SECRET_KEY: github-actions-test-key
+        run: |
+          python - <<'PY'
+          from app import app
+
+          client = app.test_client()
+          assert client.get("/").status_code == 200
+
+          start = client.post(
+              "/api/start",
+              json={"player": "CI Player", "difficulty": "medium"},
+          )
+          assert start.status_code == 200
+          assert start.get_json()["status"] == "playing"
+          assert client.post("/api/guess", json={"letter": "a"}).status_code == 200
+          assert client.get("/health").get_json() == {"status": "ok"}
+          print("WordQuest smoke tests passed")
+          PY
+
+      - name: Verify Gunicorn boot
+        env:
+          SECRET_KEY: github-actions-test-key
+        run: |
+          gunicorn --bind 127.0.0.1:8000 app:app &
+          APP_PID=$!
+          trap "kill $APP_PID" EXIT
+          for attempt in {1..10}; do
+            curl --fail --silent http://127.0.0.1:8000/health && exit 0
+            sleep 1
+          done
+          exit 1
