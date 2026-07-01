@@ -1,15 +1,15 @@
 # WordQuest — English Word Guessing Game
 
-A polished mini-project built with Python Flask, SQLite, HTML, CSS, and JavaScript.
+A polished mini-project built with Python Flask, Mango DB, HTML, CSS, and JavaScript.
 
 ## Features
 
 - Three difficulty levels with 30 built-in words
 - Two starter letters revealed, plus letter-by-letter guessing with keyboard support
 - Helpful clues, limited attempts, scoring, and paid letter reveals
-- SQLite game history and player progress dashboard
+- MangoDB game history and player progress dashboard
 - Responsive, animated interface with sound feedback
-- K.C. Dhanunjay Infosys footer banner with WhatsApp and website links
+
 - Flask JSON API and server-side sessions
 
 ## Run locally
