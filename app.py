@@ -7,7 +7,6 @@ from flask import Flask, jsonify, render_template, request, session
 from pymongo import MongoClient
 from pymongo.errors import PyMongoError
 
-# Environment variables లోడ్ చేయడం
 load_dotenv()
 
 app = Flask(__name__)
@@ -16,7 +15,6 @@ app.secret_key = os.environ.get(
 )
 app.config.update(SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax")
 
-# --- మోంగోడిబి కనెక్షన్ సెటప్ ---
 DEFAULT_MONGODB_URI = "mongodb://localhost:27017/"
 MONGODB_URI = (
     os.environ.get("MONGODB_URI")
